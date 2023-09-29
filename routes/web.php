@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/{any}', "app")->where("any", ".*");
+// Route::view('/{any}', "app")->where("any", ".*");
+
+
+Route::get('/demo', [DemoController::class , 'index']);
+
+Route::post('/demo', [DemoController::class , 'index2'])->name('send');
