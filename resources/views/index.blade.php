@@ -6,8 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('send') }}" method="get">
+    <form action="{{ route('testapi') }}" method="get">
         <input type="text" name="search">
+    
         <!-- <input type="number" name="age">
         <input type="text" name="job"> -->
         <button>Send</button>

@@ -5,6 +5,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class DemoController extends Controller
 {

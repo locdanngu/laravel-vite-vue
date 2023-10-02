@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/demo', [DemoController::class , 'index']);
 
-Route::get('/API', [UserController::class, 'testapi'])->name('testapi');
-Route::get('/API/delete', [UserController::class, 'deletetestapi'])->name('deletetestapi');
+Route::get('/API', [DemoController::class, 'testapi'])->name('testapi');
+Route::delete('/API/delete', [DemoController::class, 'deletetestapi'])->name('deletetestapi');
