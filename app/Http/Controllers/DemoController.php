@@ -63,16 +63,18 @@ class DemoController extends Controller
         
         
         if(!$product){
-            return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
+            // return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
+            return response()->json(['message' => 'Sản phẩm không tồn tại'], 404, [], JSON_UNESCAPED_UNICODE);
+
         }
         if($product->isdelete == 1){
-            return response()->json(['message' => 'Sản phẩm đã bị xóa trước đó'], 400);
+            return response()->json(['message' => 'Sản phẩm đã bị xóa trước đó'], 400, [], JSON_UNESCAPED_UNICODE);
         }
         if($product->isdelete == 0){
             $product->isdelete = 1;
             $product->timedelete = Carbon::now();
             $product->save();
-            return response()->json(['message' => 'Xóa thành công'], 200);
+            return response()->json(['message' => 'Xóa thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
 }
