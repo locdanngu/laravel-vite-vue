@@ -78,6 +78,14 @@ class DemoController extends Controller
         $product->sold = 0;
         $product->save();
 
+        $category = Category::where('idcategory', $request->input('idcategory'))->first();
+        $category->product_count = $category->product_count + 1;
+        $category->save();
+
+        $type = Type::where('idtype', $request->input('idtype'))->first();
+        $type->product_count = $type->product_count + 1;
+        $type->save();
+
         return response()->json(['message' => 'Thêm sản phẩm thành công'], 201, [], JSON_UNESCAPED_UNICODE);
     }
 
