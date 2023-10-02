@@ -14,7 +14,7 @@ class DemoController extends Controller
         return view('index');
     }
 
-    public function testapi(Request $request)
+    public function product(Request $request)
     {
         $search = $request->input('search'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
         $perPage = 10; // Số lượng sản phẩm trên mỗi trang, bạn có thể thay đổi theo ý muốn.
@@ -26,10 +26,13 @@ class DemoController extends Controller
         $products = Product::query();
         
         if($id){
-            $products->where('idproduct', $id)->where('isdelete', 0);
-            $products = $products->get();
-            $jsonData = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            return response($jsonData, 200)->header('Content-Type', 'application/json');
+            $product = Product::where('idproduct', $id)->first();
+            if($product->isdelete == 0){
+                $jsonData = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                return response($jsonData, 200)->header('Content-Type', 'application/json');
+            }else{
+                return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
+            }    
         }
     
         if ($search) {
@@ -56,16 +59,14 @@ class DemoController extends Controller
         return response($jsonData, 200)->header('Content-Type', 'application/json');
     }
 
-    public function deletetestapi(Request $request)
+    public function deleteproduct(Request $request)
     {
         $search = $request->input('id'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
         $product = Product::where('idproduct', $search)->first();
         
         
         if(!$product){
-            // return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404, [], JSON_UNESCAPED_UNICODE);
-
         }
         if($product->isdelete == 1){
             return response()->json(['message' => 'Sản phẩm đã bị xóa trước đó'], 400, [], JSON_UNESCAPED_UNICODE);

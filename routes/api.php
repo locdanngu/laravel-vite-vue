@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/product', [DemoController::class, 'testapi'])->name('testapi');
-Route::delete('/product/delete', [DemoController::class, 'deletetestapi'])->name('deletetestapi');
+Route::get('/product', [DemoController::class, 'product'])->name('product');
+Route::delete('/product/delete/{id}', [DemoController::class, 'deleteproduct'])->name('deleteproduct');
+
+Route::get('/category', [DemoController::class, 'category'])->name('category');
+Route::delete('/category/delete/{id}', [DemoController::class, 'deletecategory'])->name('deletecategory');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
