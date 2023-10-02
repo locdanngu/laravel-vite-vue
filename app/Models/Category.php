@@ -12,6 +12,8 @@ class Category extends Model
     protected $fillable = [
         'namecategory',
         'imagecategory',
+        'isdelete',
+        'timedelete',
         'product_count'
     ];
 

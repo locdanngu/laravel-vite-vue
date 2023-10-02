@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 
-class DemoController extends Controller
+class ProductController extends Controller
 {
     //
     public function index(){
@@ -29,7 +29,7 @@ class DemoController extends Controller
         if($id){
             $product = Product::where('idproduct', $id)->first();
             if($product->isdelete == 0){
-                $jsonData = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 return response($jsonData, 200)->header('Content-Type', 'application/json');
             }else{
                 return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
@@ -120,27 +120,19 @@ class DemoController extends Controller
                 $type2->save();
             }
 
-
             foreach ($data as $field => $value) {
                 $product->$field = $value;
             }
-
             $product->save();
-
             return response()->json(['message' => 'Cập nhật sản phẩm thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         } 
 
     }
 
-
-
-
-
     public function deleteproduct(Request $request)
     {
         $search = $request->input('id'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
         $product = Product::where('idproduct', $search)->first();
-        
         
         if(!$product){
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404, [], JSON_UNESCAPED_UNICODE);

@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/product', [DemoController::class, 'product'])->name('product');
-Route::post('/product/add', [DemoController::class, 'addproduct'])->name('addproduct');
-Route::patch('/product/change', [DemoController::class, 'changeproduct'])->name('changeproduct');
-Route::delete('/product/delete', [DemoController::class, 'deleteproduct'])->name('deleteproduct');
+Route::get('/product', [ProductController::class, 'product'])->name('product');
+Route::post('/product/add', [ProductController::class, 'addproduct'])->name('addproduct');
+Route::patch('/product/change', [ProductController::class, 'changeproduct'])->name('changeproduct');
+Route::delete('/product/delete', [ProductController::class, 'deleteproduct'])->name('deleteproduct');
 
-Route::get('/category', [DemoController::class, 'category'])->name('category');
-Route::delete('/category/delete', [DemoController::class, 'deletecategory'])->name('deletecategory');
+Route::get('/category', [CategoryController::class, 'category'])->name('category');
+Route::post('/category/add', [CategoryController::class, 'addcategory'])->name('addcategory');
+Route::patch('/category/change', [CategoryController::class, 'changecategory'])->name('changecategory');
+Route::delete('/category/delete', [CategoryController::class, 'deletecategory'])->name('deletecategory');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
