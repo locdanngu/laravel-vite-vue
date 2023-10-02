@@ -23,12 +23,22 @@ class CategoryController extends Controller
         
         if($id){
             $category = Category::where('idcategory', $id)->first();
-            if($category->isdelete == 0){
-                $jsonData = json_encode($category, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                return response($jsonData, 200)->header('Content-Type', 'application/json');
+            if($category){
+                if($category->isdelete == 0){
+                    $jsonData = json_encode($category, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                    return response($jsonData, 200)->header('Content-Type', 'application/json');
+                }else{
+                    return response()->json(['message' => 'Danh mục không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
+                }
             }else{
                 return response()->json(['message' => 'Danh mục không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
-            }    
+            }
+            // if($category->isdelete == 0){
+            //     $jsonData = json_encode($category, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            //     return response($jsonData, 200)->header('Content-Type', 'application/json');
+            // }else{
+            //     return response()->json(['message' => 'Danh mục không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
+            // }    
         }
     
         if ($search) {
