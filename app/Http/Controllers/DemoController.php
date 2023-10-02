@@ -13,31 +13,16 @@ class DemoController extends Controller
     }
 
     public function index2(Request $request){
-        // $name = $request['name'];
-        // $age = $request['age'];
-        // $job = $request['job'];
+        $search = $request->input('search'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
+        $products = Product::query(); // Bắt đầu một truy vấn Eloquent.
 
-        // $data = [
-        //     'name' => $name,
-        //     'age' => $age,
-        //     'job' => $job
-        // ];
-
-        $product = Product::all();
-        $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        return response($jsonData, 200)->header('Content-Type', 'application/json');
-    }
-
-    public function search(Request $request){
-        $apiUrl = 'https://phone5615664.000webhostapp.com/API2';
-        $search = $request['search'];
-        $response = Http::get($apiUrl, ['search' => $search]);
-        if ($response->status() == 200) {
-            // Xử lý dữ liệu trả về từ API tại đây
-            $data = $response->json();
-            dd($data);
-        } else {
-            return "Yêu cầu không thành công, mã trạng thái: " . $response->status();
+        if ($search) {
+            $products->where('nameproduct', 'like', '%' . $search . '%');
         }
+
+        $products = $products->get(); // Lấy kết quả của truy vấn.
+
+        $jsonData = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return response($jsonData, 200)->header('Content-Type', 'application/json');
     }
 }

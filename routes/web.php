@@ -19,5 +19,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/demo', [DemoController::class , 'index']);
 
 Route::get('/demo2', [DemoController::class , 'index2'])->name('send');
-
-Route::get('/demo3', [DemoController::class , 'search'])->name('search');
