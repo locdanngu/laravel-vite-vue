@@ -6,10 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('send') }}" method="post">
-        @csrf
-        <!-- <input type="text" name="name">
-        <input type="number" name="age">
+    <form action="{{ route('search') }}" method="get">
+        <input type="text" name="search">
+        <!-- <input type="number" name="age">
         <input type="text" name="job"> -->
         <button>Send</button>
     </form>    
