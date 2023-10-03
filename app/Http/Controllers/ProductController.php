@@ -28,22 +28,13 @@ class ProductController extends Controller
         
         if($id){
             $product = Product::where('idproduct', $id)->first();
-            if($product){
-                if($product->isdelete == 0){
-                    $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                    return response($jsonData, 200)->header('Content-Type', 'application/json');
-                }else{
-                    return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
-                }
-            }else{
-                return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE); 
+            if(!$product || $product->isdelete == 1){
+                return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
             }
-            // if($product->isdelete == 0){
-            //     $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            //     return response($jsonData, 200)->header('Content-Type', 'application/json');
-            // }else{
-            //     return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
-            // }    
+            if($product->isdelete == 0){
+                $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                return response($jsonData, 200)->header('Content-Type', 'application/json');
+            }
         }
     
         if ($search) {
