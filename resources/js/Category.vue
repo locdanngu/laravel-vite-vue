@@ -10,16 +10,16 @@
                     <tr>
                         <th>ID</th>
                         <th>Tên danh mục</th>
-                        <th>Hình ảnh</th>
+                        <th class="text-center">Hình ảnh</th>
                         <th class="text-center">Số lượng sản phẩm</th>
                         <th>Ngày tạo</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-middle">
                     <tr v-for="category in categories.data" :key="category.idcategory">
                         <td>{{ category.idcategory }}</td>
-                        <td>{{ category.namecategory }}</td>
-                        <td><img src="{{ category.imagecategory }}" alt=""></td>
+                        <td class="fw-bold">{{ category.namecategory }}</td>
+                        <td class="text-center"><img :src="category.imagecategory" alt="" height="50"></td>
                         <td class="text-center">{{ category.product_count }}</td>
                         <td>{{ formattedDate(category.created_at) }}</td>
                     </tr>
