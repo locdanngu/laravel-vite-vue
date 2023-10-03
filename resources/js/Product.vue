@@ -4,8 +4,9 @@ Hello, World!
 
 <template>
     <div class="p-5">
-        <div>
+        <div class="d-flex justify-content-between mb-2">
             <h2>Danh sách sản phẩm:</h2>
+            <input type="text" value="" placeholder="Tìm kiếm" class="form-control w-25">
         </div>
         <div class="card-body table-responsive p-0">
             <table class="product-table table text-nowrap">
@@ -94,12 +95,4 @@ export default {
     background-color: #f2f2f2;
 }
 
-/* Định dạng dòng chẵn và lẻ của bảng */
-.product-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.product-table tr:nth-child(odd) {
-    background-color: #fff;
-}
 </style>
