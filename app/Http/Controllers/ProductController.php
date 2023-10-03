@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
@@ -32,6 +33,14 @@ class ProductController extends Controller
                 return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
             }
             if($product->isdelete == 0){
+                $idcate = $product->idcategory;
+                $idtype = $product->idtype;
+                $product->namecategory = Category::where('idcategory', $idcate)->first();
+                $product->nametype = Type::where('idtype', $idtype)->first();
+            
+                // Xóa idcategory và idtype nếu bạn muốn
+                unset($product->idcategory);
+                unset($product->idtype);
                 $jsonData = json_encode($product, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 return response($jsonData, 200)->header('Content-Type', 'application/json');
             }
@@ -42,6 +51,20 @@ class ProductController extends Controller
         }
     
         $products = $products->where('isdelete', 0)->paginate($perPage);
+        
+        
+        foreach ($products as $product) {
+            // Lấy namecategory và nametype tương ứng với idcategory và idtype
+            $idcate = $product->idcategory;
+            $idtype = $product->idtype;
+            $product->namecategory = Category::where('idcategory', $idcate)->first();
+            $product->nametype = Type::where('idtype', $idtype)->first();
+            
+            // Xóa idcategory và idtype nếu bạn muốn
+            unset($product->idcategory);
+            unset($product->idtype);
+        }
+        
     
         $paginationData = [
             'current_page' => $products->currentPage(),

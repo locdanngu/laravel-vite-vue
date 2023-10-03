@@ -52,7 +52,7 @@ class CategoryController extends Controller
             'pagination' => $paginationData, // Thông tin phân trang
         ];
     
-        $jsonData = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $jsonData = json_encode($categories, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         return response($jsonData, 200)->header('Content-Type', 'application/json');
     }
 
@@ -64,6 +64,9 @@ class CategoryController extends Controller
 
         $category = new Category;
         $category->namecategory = $request->input('namecategory');
+        $category->isdelete = 0;
+        $category->timedelete = null;
+        $category->product_count = 0;
         $category->imagecategory = $request->input('imagecategory');
         $category->save();
 
