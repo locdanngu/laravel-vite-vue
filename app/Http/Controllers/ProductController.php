@@ -11,6 +11,7 @@ use Illuminate\Pagination\Paginator;
 
 class ProductController extends Controller
 {
+
     public function product(Request $request)
     {
         $search = $request->input('search'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
