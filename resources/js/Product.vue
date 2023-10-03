@@ -35,10 +35,11 @@ Hello, World!
                     <td>{{ product.price }}</td>
                     <td class="text-center">{{ product.namecategory.idcategory }}</td>
                     <td class="text-center">{{ product.namecategory.namecategory }}</td>
-                    <td class="text-center">{{ product.namecategory.created_at }}</td>
+                    <td class="text-center">{{ formattedDate(product.namecategory.created_at) }}</td>
                     <td class="text-center">{{ product.nametype.idtype }}</td>
                     <td class="text-center">{{ product.nametype.nametype }}</td>
-                    <td class="text-center">{{ product.namecategory.created_at }}</td>
+                    <td class="text-center">{{ formattedDate(product.nametype.created_at) }}</td>
+                    
                 </tr>
             </tbody>
         </table>
@@ -50,6 +51,7 @@ Hello, World!
   
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
     data() {
@@ -65,6 +67,11 @@ export default {
             axios.get('/api/product').then((response) => {
                 this.products = response.data;
             });
+        },
+    },
+    computed: {
+        formattedDate() {
+            return (date) => moment(date).format('DD/MM/YYYY');
         },
     },
 };
