@@ -1,7 +1,3 @@
-<!-- <template>
-Hello, World!
-</template> -->
-
 <template>
     <div class="p-5">
         <div class="d-flex justify-content-between mb-2">
