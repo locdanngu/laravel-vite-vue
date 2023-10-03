@@ -6,7 +6,7 @@ Hello, World!
     <div class="p-5">
         <div class="d-flex justify-content-between mb-2">
             <h2>Danh sách sản phẩm:</h2>
-            <input type="text" value="" placeholder="Tìm kiếm" class="form-control w-25">
+            <input type="text" v-model="searchQuery" placeholder="Tìm kiếm" class="form-control w-25">
         </div>
         <div class="card-body table-responsive p-0">
             <table class="product-table table text-nowrap">
@@ -57,6 +57,7 @@ export default {
     data() {
         return {
             products: [],
+            searchQuery: '',
         };
     },
     created() {
@@ -64,7 +65,13 @@ export default {
     },
     methods: {
         fetchProducts() {
-            axios.get('/api/product').then((response) => {
+            let apiUrl = '/api/product';
+
+            if (this.searchQuery) {
+                apiUrl += `?search=${this.searchQuery}`;
+            }
+
+            axios.get(apiUrl).then((response) => {
                 this.products = response.data;
             });
         },
@@ -72,6 +79,11 @@ export default {
     computed: {
         formattedDate() {
             return (date) => moment(date).format('DD/MM/YYYY');
+        },
+    },
+    watch: {
+        searchQuery: function (newQuery, oldQuery) {
+            this.fetchProducts();
         },
     },
 };
@@ -94,5 +106,4 @@ export default {
 .product-table th {
     background-color: #f2f2f2;
 }
-
 </style>
