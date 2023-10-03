@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/product', "app")->where("any", ".*");
+Route::view('/product', "product")->where("any", ".*");
 // Route::view('/category', "app")->where("any", ".*");
 
 // Route::view('/product', "product_view")->where("any", ".*");
 // Route::view('/category', "category_view")->where("any", ".*");
 
 
-// Route::get('/', [ProductController::class , 'index']);
+
 

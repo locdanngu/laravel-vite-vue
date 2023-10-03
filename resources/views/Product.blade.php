@@ -7,6 +7,6 @@
     @vite('resources/js/app.js')
 </head>
 <body>
-    <div id="app"></div>
+    <div id="product_list"></div>
 </body>
 </html>
