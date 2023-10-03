@@ -4,8 +4,10 @@ Hello, World!
 
 <template>
     <div>
-        <h1>Hello, World!</h1>
-        <h2>Danh sách sản phẩm:</h2>
+        <div>
+            <h2>Danh sách sản phẩm:</h2>
+        </div>
+        
         <table class="product-table">
             <thead>
                 <tr>
@@ -96,7 +98,5 @@ export default {
     background-color: #fff;
 }
 
-.text-center{
-    text-align: center !important;
-}
+
 </style>
