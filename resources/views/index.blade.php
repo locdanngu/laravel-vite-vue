@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hello, World!</title>
 </head>
 <body>
-    <form action="{{ route('testapi') }}" method="get">
-        <input type="text" name="search">
-        @csrf
-        <!-- <input type="number" name="age">
-        <input type="text" name="job"> -->
-        <button>Send</button>
-    </form>    
+    <div id="app">
+        <hello-world></hello-world>
+    </div>
 
-
-
+    @vite('resources/js/app.js')
 </body>
 </html>

@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::view('/{any}', "app")->where("any", ".*");
+Route::view('/', "app")->where("any", ".*");
 
 
-// Route::get('/demo', [DemoController::class , 'index']);
+// Route::get('/', [ProductController::class , 'index']);
 
