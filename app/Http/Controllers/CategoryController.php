@@ -110,6 +110,11 @@ class CategoryController extends Controller
             $category->isdelete = 1;
             $category->timedelete = Carbon::now();
             $category->save();
+            $product = Product::where('idcategory', $category->idcategory)->get();
+            foreach($product as $pro){
+                $pro->isdelete = 1;
+                $pro->save();
+            }
             return response()->json(['message' => 'Xóa thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
