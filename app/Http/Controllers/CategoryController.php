@@ -99,6 +99,9 @@ class CategoryController extends Controller
     {
         $search = $request->input('id'); // Sử dụng $request->input() để lấy giá trị của tham số 'search'.
         $category = Category::where('idcategory', $search)->first();
+        if($category->product_count > 0){
+            return response()->json(['message' => 'Bạn không thể xóa danh mục này'], 400, [], JSON_UNESCAPED_UNICODE);
+        }
         
         if(!$category){
             return response()->json(['message' => 'Danh mục không tồn tại'], 404, [], JSON_UNESCAPED_UNICODE);
@@ -110,11 +113,6 @@ class CategoryController extends Controller
             $category->isdelete = 1;
             $category->timedelete = Carbon::now();
             $category->save();
-            $product = Product::where('idcategory', $category->idcategory)->get();
-            foreach($product as $pro){
-                $pro->isdelete = 1;
-                $pro->save();
-            }
             return response()->json(['message' => 'Xóa thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
