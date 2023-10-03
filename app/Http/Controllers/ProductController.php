@@ -127,19 +127,25 @@ class ProductController extends Controller
             }
 
             if($product->idcategory != $data['idcategory']){
+                $category2 = Category::where('idcategory', $data['idcategory'])->first();
+                if(!$category2){
+                    return response()->json(['message' => 'Danh mục mới không tồn tại trong hệ thống'], 400, [], JSON_UNESCAPED_UNICODE);
+                }
                 $category = Category::where('idcategory', $product->idcategory)->first();
                 $category->product_count = $category->product_count - 1;
                 $category->save();
-                $category2 = Category::where('idcategory', $data['idcategory'])->first();
                 $category2->product_count = $category2->product_count + 1;
                 $category2->save();
             }
 
             if($product->idtype != $data['idtype']){
+                $type2 = Type::where('idtype', $data['idtype'])->first();
+                if(!$type2){
+                    return response()->json(['message' => 'Loại hàng mới không tồn tại trong hệ thống'], 400, [], JSON_UNESCAPED_UNICODE);
+                }
                 $type = Type::where('idtype', $product->idtype)->first();
                 $type->product_count = $type->product_count - 1;
                 $type->save();
-                $type2 = Type::where('idtype', $data['idtype'])->first();
                 $type2->product_count = $type2->product_count + 1;
                 $type2->save();
             }
