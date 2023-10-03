@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách sản phẩm</title>
-    @vite('resources/js/app.js')
-</head>
-<body>
+@extends('user.layouts.Userlayout')
+
+@section('title', 'Danh sách sản phẩm')
+
+@section('content')
     <div id="product_list"></div>
-</body>
-</html>
+@endsection
