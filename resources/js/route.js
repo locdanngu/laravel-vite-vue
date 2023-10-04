@@ -1,10 +1,11 @@
 // route.js
 import { createRouter, createWebHistory } from 'vue-router';
-import Product from './Product.vue';
-import Category from './Category.vue';
+import Product from './components/Product.vue';
+import Category from './components/Category.vue';
+import Homepage from './components/Homepage.vue';
 
 const routes = [
-  { path: '/homepage', component: Homepage },
+  { path: '/', component: Homepage },
   { path: '/product', component: Product },
   { path: '/category', component: Category },
 ];
