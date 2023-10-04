@@ -13,11 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/product', "product")->where("any", ".*");
-Route::view('/category', "category")->where("any", ".*");
+// Route::view('/product', "product")->where("any", ".*");
+// Route::view('/category', "category")->where("any", ".*");
 
-// Route::view('/product', "product_view")->where("any", ".*");
-// Route::view('/category', "category_view")->where("any", ".*");
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Route để xử lý các yêu cầu Vue.js cho các route khác
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
 
 
 
