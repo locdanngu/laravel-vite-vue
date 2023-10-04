@@ -10,34 +10,34 @@
                 <tr>
                     <th rowspan="3">ID</th>
                     <th rowspan="3">Tên sản phẩm</th>
-                    <th rowspan="3" class="text-center">Hình ảnh</th>
+                    <th rowspan="3">Hình ảnh</th>
                     <th rowspan="3">Giá cũ</th>
                     <th rowspan="3">Giá mới</th>
-                    <th colspan="3" class="text-center">Danh mục</th>
-                    <th colspan="3" class="text-center">Loại hàng</th>
+                    <th colspan="3">Danh mục</th>
+                    <th colspan="3">Loại hàng</th>
                 </tr>
                 <tr>
-                    <th rowspan="2" class="text-center">ID</th>
-                    <th rowspan="2" class="text-center">Danh mục</th>
-                    <th rowspan="2" class="text-center">Ngày tạo</th>
-                    <th rowspan="2" class="text-center">ID</th>
-                    <th rowspan="2" class="text-center">Loại</th>
-                    <th rowspan="2" class="text-center">Ngày tạo</th>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2">Danh mục</th>
+                    <th rowspan="2">Ngày tạo</th>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2">Loại</th>
+                    <th rowspan="2">Ngày tạo</th>
                 </tr>
             </thead>
-            <tbody class="align-middle">
+            <tbody>
                 <tr v-for="product in products" :key="product.idproduct">
                     <td>{{ product.idproduct }}</td>
-                    <td>{{ product.nameproduct }}</td>
-                    <td class="text-center"><img :src="product.imageproduct" alt="" height="50"></td>
+                    <td class="font-weight-bold">{{ product.nameproduct }}</td>
+                    <td><img :src="product.imageproduct" alt="" height="50"></td>
                     <td>{{ product.oldprice }}</td>
                     <td>{{ product.price }}</td>
-                    <td class="text-center">{{ product.namecategory.idcategory }}</td>
-                    <td class="text-center">{{ product.namecategory.namecategory }}</td>
-                    <td class="text-center">{{ formattedDate(product.namecategory.created_at) }}</td>
-                    <td class="text-center">{{ product.nametype.idtype }}</td>
-                    <td class="text-center">{{ product.nametype.nametype }}</td>
-                    <td class="text-center">{{ formattedDate(product.nametype.created_at) }}</td>
+                    <td>{{ product.namecategory.idcategory }}</td>
+                    <td>{{ product.namecategory.namecategory }}</td>
+                    <td>{{ formattedDate(product.namecategory.created_at) }}</td>
+                    <td>{{ product.nametype.idtype }}</td>
+                    <td>{{ product.nametype.nametype }}</td>
+                    <td>{{ formattedDate(product.nametype.created_at) }}</td>
 
                 </tr>
             </tbody>

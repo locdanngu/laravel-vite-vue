@@ -10,20 +10,20 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên danh mục</th>
-                    <th class="text-center">Hình ảnh</th>
-                    <th class="text-center">Số lượng sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng sản phẩm</th>
                     <th>Ngày tạo</th>
                     <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="category in categories.data" :key="category.idcategory">
-                    <td class="align-middle">{{ category.idcategory }}</td>
-                    <td class="fw-bold align-middle">{{ category.namecategory }}</td>
-                    <td class="text-center align-middle"><img :src="category.imagecategory" alt="" height="50"></td>
-                    <td class="text-center align-middle">{{ category.product_count }}</td>
-                    <td class="align-middle">{{ formattedDate(category.created_at) }}</td>
-                    <td class="text-center align-middle">
+                    <td>{{ category.idcategory }}</td>
+                    <td class="font-weight-bold">{{ category.namecategory }}</td>
+                    <td><img :src="category.imagecategory" alt="" height="50"></td>
+                    <td>{{ category.product_count }}</td>
+                    <td>{{ formattedDate(category.created_at) }}</td>
+                    <td>
                         <button class="btn btn-warning mr-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" @click="openDeleteModal(category)"><i class="bi bi-trash"></i> Xóa</button>
                     </td>
