@@ -16,14 +16,14 @@
                     <th>Chức năng</th>
                 </tr>
             </thead>
-            <tbody class="align-middle">
+            <tbody>
                 <tr v-for="category in categories.data" :key="category.idcategory">
-                    <td>{{ category.idcategory }}</td>
-                    <td class="fw-bold">{{ category.namecategory }}</td>
-                    <td class="text-center"><img :src="category.imagecategory" alt="" height="50"></td>
-                    <td class="text-center">{{ category.product_count }}</td>
-                    <td>{{ formattedDate(category.created_at) }}</td>
-                    <td class="text-center">
+                    <td class="align-middle">{{ category.idcategory }}</td>
+                    <td class="fw-bold align-middle">{{ category.namecategory }}</td>
+                    <td class="text-center align-middle"><img :src="category.imagecategory" alt="" height="50"></td>
+                    <td class="text-center align-middle">{{ category.product_count }}</td>
+                    <td class="align-middle">{{ formattedDate(category.created_at) }}</td>
+                    <td class="text-center align-middle">
                         <button class="btn btn-warning mr-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" @click="openDeleteModal(category)"><i class="bi bi-trash"></i> Xóa</button>
                     </td>
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" :class="{ 'show': showDeleteModal }">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -49,11 +49,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Bạn có chắc chắn muốn xóa danh mục này?
+                    <p v-if="categoryToDelete">
+                        Bạn có chắc chắn muốn xóa danh mục: <b>{{ categoryToDelete.namecategory }}</b> này?
+                    </p>
+                    <p class="text-danger font-weight-bold" v-if="categoryToDelete && categoryToDelete.product_count > 0">
+                        Bạn không thể xóa danh mục này vì có sản phẩm liên quan!
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" @click="deleteCategory">Xóa</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteCategory" :disabled="categoryToDelete && categoryToDelete.product_count > 0">Xóa</button>
+
                 </div>
             </div>
         </div>
@@ -74,7 +80,7 @@ export default {
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
             previousSearchQuery: '',
-            showDeleteModal: false,
+            categoryToDelete: null,
         };
     },
     created() {
@@ -119,18 +125,11 @@ export default {
             }
         },
         openDeleteModal(category) {
-            
             this.categoryToDelete = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
-            this.showDeleteModal = true; // Hiển thị modal
-            console.log(this.categoryToDelete.idcategory);
-        },
-        closeDeleteModal() {
-            this.showDeleteModal = false; // Đóng modal
         },
         deleteCategory() {
-            // Thực hiện xóa danh mục ở đây
-            // Sau khi xóa xong, đóng modal:
-            this.showDeleteModal = false;
+            console.log(this.categoryToDelete.product_count);
+            this.fetchCategories();
         },
 
     },
