@@ -13,6 +13,7 @@
                     <th class="text-center">Hình ảnh</th>
                     <th class="text-center">Số lượng sản phẩm</th>
                     <th>Ngày tạo</th>
+                    <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody class="align-middle">
@@ -22,6 +23,10 @@
                     <td class="text-center"><img :src="category.imagecategory" alt="" height="50"></td>
                     <td class="text-center">{{ category.product_count }}</td>
                     <td>{{ formattedDate(category.created_at) }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning me-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
+                        <button class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
