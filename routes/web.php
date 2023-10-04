@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,18 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::view('/product', "product")->where("any", ".*");
-// Route::view('/category', "category")->where("any", ".*");
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route để xử lý các yêu cầu Vue.js cho các route khác
-Route::get('/{any}', function () {
-    return view('app');
-})->where('any', '.*');
+// Route xử lý truy cập trực tiếp vào các tệp CSS
+// Route::get('/stylesheet/{filename}', function ($filename) {
+//     return response()->file(public_path('stylesheet/' . $filename));
+// });
 
-
-
-
+// Route Vue.js cho các route khác
+// Route::get('/{any}', function () {
+//     return view('app');
+// })->where('any', '.*');

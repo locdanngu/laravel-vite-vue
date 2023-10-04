@@ -88,20 +88,5 @@ export default {
 </script>
 
 <style>
-/* Kiểu dáng bảng */
-.product-table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
-.product-table th,
-.product-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-.product-table th {
-    background-color: #f2f2f2;
-}
 </style>
