@@ -39,17 +39,18 @@
     </div>
 
     <!-- Modal change-->
-    <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true" v-if="categoryToChange">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changeModalLabel">Thay đổi thông tin danh mục: <b v-if="categoryToChange">{{ categoryToChange.namecategory }}</b></h5>
+                    <h5 class="modal-title" id="changeModalLabel">Thay đổi thông tin danh mục: <b>{{ categoryToChange.namecategory }}</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <input type="text" name="namecategory" v-model="categoryToChange.namecategory" class="form-control mb-5">
+                    <img :src="categoryToChange.imagecategory" alt="" height="80">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -60,7 +61,7 @@
     </div>
 
     <!-- Modal delete -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" v-if="categoryToDelete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -70,16 +71,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p v-if="categoryToDelete">
+                    <p>
                         Bạn có chắc chắn muốn xóa danh mục: <b>{{ categoryToDelete.namecategory }}</b> này?
                     </p>
-                    <p class="text-danger font-weight-bold" v-if="categoryToDelete && categoryToDelete.product_count > 0">
+                    <p class="text-danger font-weight-bold" v-if="categoryToDelete.product_count > 0">
                         Bạn không thể xóa danh mục này vì có sản phẩm liên quan!
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteCategory" :disabled="categoryToDelete && categoryToDelete.product_count > 0">Xóa</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteCategory" :disabled="categoryToDelete.product_count > 0">Xóa</button>
                 </div>
             </div>
         </div>
