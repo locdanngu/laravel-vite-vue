@@ -4,6 +4,7 @@ import Product from './Product.vue';
 import Category from './Category.vue';
 
 const routes = [
+  { path: '/homepage', component: Homepage },
   { path: '/product', component: Product },
   { path: '/category', component: Category },
 ];
