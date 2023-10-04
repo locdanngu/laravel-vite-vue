@@ -13,16 +13,14 @@
                     <th rowspan="3">Hình ảnh</th>
                     <th rowspan="3">Giá cũ</th>
                     <th rowspan="3">Giá mới</th>
-                    <th colspan="3">Danh mục</th>
-                    <th colspan="3">Loại hàng</th>
+                    <th colspan="2">Danh mục</th>
+                    <th colspan="2">Loại hàng</th>
                 </tr>
                 <tr>
                     <th rowspan="2">ID</th>
                     <th rowspan="2">Danh mục</th>
-                    <th rowspan="2">Ngày tạo</th>
                     <th rowspan="2">ID</th>
-                    <th rowspan="2">Loại</th>
-                    <th rowspan="2">Ngày tạo</th>
+                    <th rowspan="2">Loại</th>   
                 </tr>
             </thead>
             <tbody>
@@ -34,11 +32,8 @@
                     <td>{{ product.price }}</td>
                     <td>{{ product.namecategory.idcategory }}</td>
                     <td>{{ product.namecategory.namecategory }}</td>
-                    <td>{{ formattedDate(product.namecategory.created_at) }}</td>
                     <td>{{ product.nametype.idtype }}</td>
                     <td>{{ product.nametype.nametype }}</td>
-                    <td>{{ formattedDate(product.nametype.created_at) }}</td>
-
                 </tr>
             </tbody>
         </table>
@@ -46,7 +41,7 @@
 
     <div class="pagination w-100 d-flex justify-content-center align-items-center mt-5">
         <button class="btn btn-primary" @click="previousPage" :disabled="currentPage === 1">Lùi</button>
-        <span class="ms-3 me-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
+        <span class="ml-3 mr-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 </div>

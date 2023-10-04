@@ -24,7 +24,7 @@
                     <td>{{ category.product_count }}</td>
                     <td>{{ formattedDate(category.created_at) }}</td>
                     <td>
-                        <button class="btn btn-warning mr-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
+                        <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#changeModal" @click="openChangeModal(category)"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" @click="openDeleteModal(category)"><i class="bi bi-trash"></i> Xóa</button>
                     </td>
                 </tr>
@@ -38,7 +38,28 @@
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal change-->
+    <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeModalLabel">Thay đổi thông tin danh mục: <b v-if="categoryToChange">{{ categoryToChange.namecategory }}</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="changeCategory">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -59,7 +80,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteCategory" :disabled="categoryToDelete && categoryToDelete.product_count > 0">Xóa</button>
-
                 </div>
             </div>
         </div>
@@ -81,6 +101,7 @@ export default {
             lastPage: 1,
             previousSearchQuery: '',
             categoryToDelete: null,
+            categoryToChange: null,
         };
     },
     created() {
@@ -127,6 +148,9 @@ export default {
         openDeleteModal(category) {
             this.categoryToDelete = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
         },
+        openChangeModal(category) {
+            this.categoryToChange = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
+        },
         deleteCategory() {
             axios.delete('/api/category/delete?id=' + this.categoryToDelete.idcategory)
                 .then(response => {
@@ -140,6 +164,9 @@ export default {
         },
         showSuccessMessage(message) {
             this.$toastr.success(message, 'Thành công');
+        },
+        changeCategory() {
+
         },
 
     },
