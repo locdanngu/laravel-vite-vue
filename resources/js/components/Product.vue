@@ -44,7 +44,7 @@
         </table>
     </div>
 
-    <div class="pagination w-100 d-flex justify-content-center align-items-center">
+    <div class="pagination w-100 d-flex justify-content-center align-items-center mt-5">
         <button class="btn btn-primary" @click="previousPage" :disabled="currentPage === 1">Lùi</button>
         <span class="ms-3 me-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
