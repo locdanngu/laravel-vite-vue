@@ -88,7 +88,6 @@ export default {
                 this.products = response.data.data;
                 this.lastPage = response.data.last_page;
                 this.previousSearchQuery = this.searchQuery;
-                console.log(this.previousSearchQuery);
                 this.$router.replace({ query: { page: this.currentPage } });
             });
         },
