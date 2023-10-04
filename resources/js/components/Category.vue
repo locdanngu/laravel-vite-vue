@@ -128,8 +128,18 @@ export default {
             this.categoryToDelete = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
         },
         deleteCategory() {
-            console.log(this.categoryToDelete.product_count);
-            this.fetchCategories();
+            axios.delete('/api/category/delete?id=' + this.categoryToDelete.idcategory)
+                .then(response => {
+                    this.fetchCategories();
+                    this.showSuccessMessage('Danh mục đã được xóa thành công.');
+                })
+                .catch(error => {
+                    // Xử lý lỗi ở đây
+                    console.error('Lỗi khi xóa danh mục:', error);
+                });
+        },
+        showSuccessMessage(message) {
+            this.$toastr.success(message, 'Thành công');
         },
 
     },
