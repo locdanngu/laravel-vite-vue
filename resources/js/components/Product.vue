@@ -63,6 +63,7 @@ export default {
             searchQuery: '',
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
+            previousSearchQuery: '',
         };
     },
     created() {
@@ -75,8 +76,10 @@ export default {
             let apiUrl = '/api/product';
 
             if (this.searchQuery) {
-                apiUrl += `?search=${this.searchQuery}`;
-                apiUrl += `&page=${this.currentPage}`;
+                if(this.searchQuery !== this.previousSearchQuery){
+                    this.currentPage = 1;
+                }
+                apiUrl += `?search=${this.searchQuery}&page=${this.currentPage}`;
             }else{
                 apiUrl += `?page=${this.currentPage}`;
             }
@@ -84,6 +87,8 @@ export default {
             axios.get(apiUrl).then((response) => {
                 this.products = response.data.data;
                 this.lastPage = response.data.last_page;
+                this.previousSearchQuery = this.searchQuery;
+                console.log(this.previousSearchQuery);
                 this.$router.replace({ query: { page: this.currentPage } });
             });
         },
