@@ -10,7 +10,16 @@
 
 <script>
 export default {
-    // ...
+  created() {
+    // Lắng nghe sự kiện route thay đổi
+    this.$router.afterEach((to) => {
+      // Lấy meta title từ route hiện tại
+      const pageTitle = to.meta.title;
+
+      // Cập nhật title của trang HTML
+      document.title = pageTitle;
+    });
+  },
 };
 </script>
 
