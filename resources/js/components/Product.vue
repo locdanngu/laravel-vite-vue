@@ -44,10 +44,10 @@
         </table>
     </div>
 
-    <div class="pagination">
-        <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
-        <span>Page {{ currentPage }} of {{ lastPage }}</span>
-        <button @click="nextPage" :disabled="currentPage === lastPage">Next</button>
+    <div class="pagination w-100 d-flex justify-content-center align-items-center">
+        <button class="btn btn-primary" @click="previousPage" :disabled="currentPage === 1">Lùi</button>
+        <span class="ms-3 me-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
+        <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 </div>
 </template>
