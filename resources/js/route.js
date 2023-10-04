@@ -1,5 +1,5 @@
 // route.js
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Product from './Product.vue';
 import Category from './Category.vue';
 
@@ -8,9 +8,15 @@ const routes = [
   { path: '/category', component: Category },
 ];
 
+// const router = createRouter({
+//   history: createWebHashHistory(),
+//   routes,
+// });
+
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
+
 
 export default router;
