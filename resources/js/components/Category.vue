@@ -24,20 +24,41 @@
                     <td class="text-center">{{ category.product_count }}</td>
                     <td>{{ formattedDate(category.created_at) }}</td>
                     <td class="text-center">
-                        <button class="btn btn-warning me-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
-                        <button class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+                        <button class="btn btn-warning mr-3"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" @click="openDeleteModal(category)"><i class="bi bi-trash"></i> Xóa</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-
     <div class="pagination w-100 d-flex justify-content-center align-items-center mt-5">
         <button class="btn btn-primary" @click="previousPage" :disabled="currentPage === 1">Lùi</button>
-        <span class="ms-3 me-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
+        <span class="ml-3 mr-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" :class="{ 'show': showDeleteModal }">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa danh mục</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa danh mục này?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" @click="deleteCategory">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </template>
 
@@ -53,6 +74,7 @@ export default {
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
             previousSearchQuery: '',
+            showDeleteModal: false,
         };
     },
     created() {
@@ -96,6 +118,21 @@ export default {
                 this.fetchCategories();
             }
         },
+        openDeleteModal(category) {
+            
+            this.categoryToDelete = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
+            this.showDeleteModal = true; // Hiển thị modal
+            console.log(this.categoryToDelete.idcategory);
+        },
+        closeDeleteModal() {
+            this.showDeleteModal = false; // Đóng modal
+        },
+        deleteCategory() {
+            // Thực hiện xóa danh mục ở đây
+            // Sau khi xóa xong, đóng modal:
+            this.showDeleteModal = false;
+        },
+
     },
     computed: {
         formattedDate() {
@@ -109,7 +146,3 @@ export default {
     },
 };
 </script>
-
-<style>
-/* Kiểu dáng bảng */
-</style>
