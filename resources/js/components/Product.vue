@@ -46,9 +46,9 @@
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 
-    <div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" >
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <form class="modal-content" @submit.prevent="addProduct">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Thêm 1 sản phẩm mới</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -58,19 +58,19 @@
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Tên sản phẩm</span>
-                        <input type="text" name="nameproduct" class="form-control" v-model="nameproduct">
+                        <input type="text" name="nameproduct" class="form-control" v-model="nameproduct" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
-                        <input type="text" name="oldpirce" class="form-control" v-model="oldprice">
+                        <input type="number" name="oldpirce" class="form-control" v-model="oldprice" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Giá mới</span>
-                        <input type="text" name="pirce" class="form-control" v-model="price">
+                        <input type="number" name="pirce" class="form-control" v-model="price" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
-                        <textarea name="detail" class="form-control" v-model="detail" rows="5"></textarea>
+                        <textarea name="detail" class="form-control" v-model="detail" rows="5" required></textarea>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Danh mục</span>
@@ -81,19 +81,22 @@
                     </div>  
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Loại hàng</span>
-                        <input type="text" name="idtype" class="form-control" v-model="idtype">
+                        <select name="idtype" v-model="idtype">
+                            <option value="" disabled selected>Chọn loại hàng</option>
+                            <option :value="types.idtype" v-for="types in types.data" :key="types.idtype">{{ types.nametype }}</option>
+                        </select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Ảnh sản phẩm</span>
-                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImage">
+                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImage" required>
                     </div>
                     <img v-if="previewUrl" :src="previewUrl" alt="Ảnh xem trước" height="100" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="addCategory">Thêm</button>
+                    <button type="submit" class="btn btn-success">Thêm</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -106,6 +109,7 @@ export default {
         return {
             products: [],
             categories: [],
+            types: [],
             searchQuery: '',
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
@@ -123,6 +127,7 @@ export default {
     created() {
         this.fetchProducts();
         this.fetchCategories();
+        this.fetchTypes();
     },
     methods: {
         fetchProducts() {
@@ -156,6 +161,12 @@ export default {
                 this.categories = response.data;
             });
         },
+        fetchTypes() {
+            let apiUrl = '/api/type';
+            axios.get(apiUrl).then((response) => {
+                this.types = response.data;
+            });
+        },
         previousPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
@@ -184,6 +195,35 @@ export default {
                 this.previewUrl = null;
                 this.imageproduct = null;
             }
+        },
+        addProduct() {
+            const formData = new FormData();
+            formData.append('nameproduct', this.nameproduct);
+            formData.append('oldprice', this.oldprice);
+            formData.append('price', this.price);
+            formData.append('detail', this.detail);
+            formData.append('idcategory', this.idcategory);
+            formData.append('idtype', this.idtype);
+            if (this.imageproduct) {
+                formData.append('imageproduct', this.imageproduct);
+            }
+
+            axios.post('/api/product/add', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    this.fetchCategories();
+                    this.showSuccessMessage('Thêm sản phẩm thành công.');
+                    this.nameproduct = '';
+                    this.imageproduct = null;
+                    this.previewUrl = null;
+                    $('#addModal').modal('hide');
+                })
+                .catch(error => {
+                    console.error('Lỗi khi thêm sản phẩm:', error);
+                });
         },
     },
     computed: {
