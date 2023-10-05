@@ -2,6 +2,7 @@
 <div class="p-5">
     <div class="d-flex justify-content-between mb-2">
         <h2>Danh sách danh mục:</h2>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><i class="bi bi-plus-circle"></i> Thêm danh mục</button>
         <input type="text" v-model="searchQuery" placeholder="Tìm kiếm" class="form-control w-25">
     </div>
     <div class="card-body table-responsive p-0">
@@ -36,6 +37,35 @@
         <button class="btn btn-primary" @click="previousPage" :disabled="currentPage === 1">Lùi</button>
         <span class="ml-3 mr-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
+    </div>
+
+    <!-- Modal add -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Thêm 1 danh mục mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tên danh mục</span>
+                        <input type="text" name="namecategory" class="form-control">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
+                        <input type="file" name="imagecategory" id="" class="form-control" accept="image/*" @change="previewImage">
+                    </div>
+                    <img v-if="previewUrl" :src="previewUrl" alt="Ảnh xem trước" height="100" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="changeCategory">Thêm</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal change-->
@@ -103,6 +133,7 @@ export default {
             previousSearchQuery: '',
             categoryToDelete: null,
             categoryToChange: null,
+            previewUrl: null
         };
     },
     created() {
@@ -169,7 +200,22 @@ export default {
         changeCategory() {
 
         },
+        previewImage(event) {
+            const file = event.target.files[0];
 
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.previewUrl = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                this.previewUrl = null;
+                alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+            }
+        }
     },
     computed: {
         formattedDate() {
