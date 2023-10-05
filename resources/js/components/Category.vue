@@ -41,7 +41,7 @@
 
     <!-- Modal add -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <form class="modal-content" @submit.prevent="addCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Thêm 1 danh mục mới</h5>
@@ -70,7 +70,7 @@
 
     <!-- Modal change-->
     <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true" v-if="categoryToChange">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <form class="modal-content" @submit.prevent="changeCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="changeModalLabel">Thay đổi thông tin danh mục: <b>{{ categoryToChange.namecategory }}</b></h5>
@@ -100,7 +100,7 @@
 
     <!-- Modal delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" v-if="categoryToDelete">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <form class="modal-content" @submit.prevent="deleteCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa danh mục</h5>

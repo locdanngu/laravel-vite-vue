@@ -46,8 +46,8 @@
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 
-    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Thêm 1 sản phẩm mới</h5>
@@ -58,11 +58,34 @@
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Tên sản phẩm</span>
-                        <input type="text" name="namecategory" class="form-control" v-model="namecategory">
+                        <input type="text" name="nameproduct" class="form-control" v-model="nameproduct">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
-                        <input type="file" name="imagecategory" id="" class="form-control" accept="image/*" @change="previewImage">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
+                        <input type="text" name="oldpirce" class="form-control" v-model="oldprice">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Giá mới</span>
+                        <input type="text" name="pirce" class="form-control" v-model="price">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
+                        <textarea name="detail" class="form-control" v-model="detail" rows="5"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Danh mục</span>
+                        <select name="idcategory" v-model="idcategory">
+                            <option value="" disabled selected>Chọn danh mục</option>
+                            <option :value="category.idcategory" v-for="category in categories.data" :key="category.idcategory">{{ category.namecategory }}</option>
+                        </select>
+                    </div>  
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Loại hàng</span>
+                        <input type="text" name="idtype" class="form-control" v-model="idtype">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh sản phẩm</span>
+                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImage">
                     </div>
                     <img v-if="previewUrl" :src="previewUrl" alt="Ảnh xem trước" height="100" />
                 </div>
@@ -82,14 +105,24 @@ export default {
     data() {
         return {
             products: [],
+            categories: [],
             searchQuery: '',
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
             previousSearchQuery: '',
+            previewUrl: null,
+            nameproduct: '', // Dữ liệu tên danh mục
+            oldprice: '',
+            price: '',
+            detail: '',
+            idcategory: 1,
+            idtype: 1,
+            imageproduct: null, // Dữ liệu tệp ảnh danh mục
         };
     },
     created() {
         this.fetchProducts();
+        this.fetchCategories();
     },
     methods: {
         fetchProducts() {
@@ -117,6 +150,12 @@ export default {
                 });
             });
         },
+        fetchCategories() {
+            let apiUrl = '/api/category';
+            axios.get(apiUrl).then((response) => {
+                this.categories = response.data;
+            });
+        },
         previousPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
@@ -127,6 +166,23 @@ export default {
             if (this.currentPage < this.lastPage) {
                 this.currentPage++;
                 this.fetchProducts();
+            }
+        },
+        previewImage(event) {
+            const file = event.target.files[0];
+
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.previewUrl = e.target.result;
+                    this.imageproduct = file;
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                this.previewUrl = null;
+                this.imageproduct = null;
             }
         },
     },
