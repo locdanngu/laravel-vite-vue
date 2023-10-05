@@ -195,6 +195,7 @@ export default {
         },
         openChangeModal(category) {
             this.categoryToChange = category; // Lưu danh mục muốn xóa vào biến categoryToDelete
+            this.namecategorychange = category.namecategory;
         },
         deleteCategory() {
             axios.delete('/api/category/delete?id=' + this.categoryToDelete.idcategory)
@@ -230,7 +231,7 @@ export default {
         changeCategory() {
             const formData = new FormData();
             formData.append('idcategory', this.categoryToChange.idcategory);
-            formData.append('namecategory', this.categoryToChange.namecategory);
+            formData.append('namecategory', this.namecategorychange);
             if (this.imagecategorychange) {
                 formData.append('imagecategory', this.imagecategorychange);
             }
