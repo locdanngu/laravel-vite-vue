@@ -23,6 +23,11 @@ Route::post('/category/add', [CategoryController::class, 'addcategory'])->name('
 Route::patch('/category/change', [CategoryController::class, 'changecategory'])->name('changecategory');
 Route::delete('/category/delete', [CategoryController::class, 'deletecategory'])->name('deletecategory');
 
+Route::get('/type', [TypeController::class, 'type'])->name('type');
+Route::post('/type/add', [TypeController::class, 'addtype'])->name('addtype');
+Route::patch('/type/change', [TypeController::class, 'changetype'])->name('changetype');
+Route::delete('/type/delete', [TypeController::class, 'deletetype'])->name('deletetype');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

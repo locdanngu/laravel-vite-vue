@@ -12,6 +12,7 @@ class Type extends Model
     protected $fillable = [
         'nametype',
         'product_count',
+        
     ];
 
 }
