@@ -81,7 +81,7 @@
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Tên danh mục</span>
-                        <input type="text" name="namecategorychange" v-model="categoryToChange.namecategory" class="form-control">
+                        <input type="text" name="namecategorychange" v-model="this.namecategorychange" class="form-control">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
