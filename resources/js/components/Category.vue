@@ -79,8 +79,16 @@
                     </button>
                 </div>
                 <div class="modal-body d-flex flex-column align-items-center">
-                    <input type="text" name="namecategory" v-model="categoryToChange.namecategory" class="form-control mb-5">
-                    <img :src="categoryToChange.imagecategory" alt="" height="80">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tên danh mục</span>
+                        <input type="text" name="namecategorychange" v-model="categoryToChange.namecategory" class="form-control">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
+                        <input type="file" name="imagecategorychange" id="" class="form-control" accept="image/*" @change="previewImagechange">
+                    </div>
+                    <img v-if="previewUrlchange" :src="previewUrlchange" alt="" height="100" />
+                    <img v-else :src="categoryToChange.imagecategory" alt="" height="100" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -136,6 +144,9 @@ export default {
             previewUrl: null,
             namecategory: '', // Dữ liệu tên danh mục
             imagecategory: null, // Dữ liệu tệp ảnh danh mục
+            previewUrlchange: null,
+            namecategorychange: '', // Dữ liệu tên danh mục
+            imagecategorychange: null, // Dữ liệu tệp ảnh danh mục
         };
     },
     created() {
@@ -199,8 +210,47 @@ export default {
         showSuccessMessage(message) {
             this.$toastr.success(message, 'Thành công');
         },
-        changeCategory() {
+        previewImagechange(event) {
+            const file = event.target.files[0];
 
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.previewUrlchange = e.target.result;
+                    this.imagecategorychange = file;
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                this.previewUrlchange = null;
+                this.imagecategorychange = null;
+            }
+        },
+        changeCategory() {
+            const formData = new FormData();
+            formData.append('idcategory', this.categoryToChange.idcategory);
+            formData.append('namecategory', this.categoryToChange.namecategory);
+            if (this.imagecategorychange) {
+                formData.append('imagecategory', this.imagecategorychange);
+            }
+
+            // Gửi yêu cầu POST tới API để thêm danh mục mới
+            axios.patch('/api/category/change', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    this.fetchCategories();
+                    this.showSuccessMessage('Thay đổi danh mục thành công.');
+                    this.namecategorychange = '';
+                    this.imagecategorychange = null;
+                    this.previewUrlchange = null;
+                })
+                .catch(error => {
+                    console.error('Lỗi khi thêm danh mục:', error);
+                });
         },
         previewImage(event) {
             const file = event.target.files[0];

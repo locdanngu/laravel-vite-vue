@@ -85,19 +85,23 @@ class CategoryController extends Controller
 
     public function changecategory(Request $request)
     {
-        $id = $request->input('id');
-        $category = Product::where('idcategory', $id)->where('isdelete', 0)->first();
+        $id = $request->input('idcategory');
+        $category = Category::where('idcategory', $id)->where('isdelete', 0)->first();
         if(!$category){
             return response()->json(['message' => 'Danh mục không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
         }else{
-            $data = $request->only(['namecategory', 'imagecategory']);
-            if (empty($data)) {
-                return response()->json(['message' => 'Không có dữ liệu mới để cập nhật'], 400, [], JSON_UNESCAPED_UNICODE);
+            if (!$request->input('namecategory')) {
+                return response()->json(['message' => 'Vui lòng điền tên danh mục'], 400, [], JSON_UNESCAPED_UNICODE);
+            }
+            $category->namecategory = $request->input('namecategory'); 
+            if ($request->hasFile('imagecategory')) {
+                $image = $request->file('imagecategory');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('image/category/');
+                $image->move($path, $filename);
+                $category->imagecategory = '/image/category/' . $filename;
             }
 
-            foreach ($data as $field => $value) {
-                $category->$field = $value;
-            }
             $category->save();
             return response()->json(['message' => 'Cập nhật danh mục thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         } 
