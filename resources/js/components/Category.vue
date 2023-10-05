@@ -128,11 +128,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// import moment from 'moment';
-// import $ from 'jquery';
-import './globals';
-
 export default {
     data() {
         return {
