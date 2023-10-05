@@ -8,11 +8,12 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import App from './components/App.vue'; // Tên tệp gốc của ứng dụng Vue.js
 import router from './route.js';
 import Toastr from 'toastr';
-
-
+import $ from 'jquery'; // Import jQuery
 
 
 const app = createApp(App);
 app.use(router); // Kết nối Vue Router với ứng dụng Vue
 app.config.globalProperties.$toastr = Toastr;
+app.config.globalProperties.$ = $;
+
 app.mount('#app');

@@ -128,8 +128,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import moment from 'moment';
+// import axios from 'axios';
+// import moment from 'moment';
+// import $ from 'jquery';
+import './globals';
 
 export default {
     data() {
@@ -202,6 +204,7 @@ export default {
                 .then(response => {
                     this.fetchCategories();
                     this.showSuccessMessage('Danh mục đã được xóa thành công.');
+                    $('#deleteModal').modal('hide');
                 })
                 .catch(error => {
                     // Xử lý lỗi ở đây

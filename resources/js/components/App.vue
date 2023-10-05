@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
 export default {
     created() {
         // Lắng nghe sự kiện route thay đổi
