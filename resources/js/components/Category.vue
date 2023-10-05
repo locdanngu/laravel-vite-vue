@@ -277,7 +277,6 @@ export default {
                 formData.append('imagecategory', this.imagecategory);
             }
 
-            // Gửi yêu cầu POST tới API để thêm danh mục mới
             axios.post('/api/category/add', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
