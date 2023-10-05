@@ -64,7 +64,7 @@ class TypeController extends Controller
         }
 
         $type = new Type;
-        $type->nametype = $request->input('nametypecategory');
+        $type->nametype = $request->input('nametype');
         $type->product_count = 0;
         $type->save();
 
