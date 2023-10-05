@@ -58,8 +58,11 @@ class CategoryController extends Controller
 
     public function addcategory(Request $request)
     {
-        if (!$request->input('namecategory') || !$request->input('imagecategory')) {
-            return response()->json(['message' => 'Vui lòng điền đầy đủ thông tin'], 400, [], JSON_UNESCAPED_UNICODE);
+        if (!$request->input('namecategory')) {
+            return response()->json(['message' => 'Vui lòng điền tên danh mục'], 400, [], JSON_UNESCAPED_UNICODE);
+        }
+        if (!$request->file('imagecategory')) {
+            return response()->json(['message' => 'Vui lòng đính kèm file'], 400, [], JSON_UNESCAPED_UNICODE);
         }
 
         $category = new Category;
@@ -73,8 +76,6 @@ class CategoryController extends Controller
             $path = public_path('image/category/');
             $image->move($path, $filename);
             $category->imagecategory = '/image/category/' . $filename;
-        }else{
-            return response()->json(['message' => 'Vui lòng kèm file ảnh'], 400, [], JSON_UNESCAPED_UNICODE);
         }
         $category->save();
 

@@ -52,7 +52,7 @@
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Tên danh mục</span>
-                        <input type="text" name="namecategory" class="form-control">
+                        <input type="text" name="namecategory" class="form-control" v-model="namecategory">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
@@ -210,18 +210,21 @@ export default {
 
                 reader.onload = (e) => {
                     this.previewUrl = e.target.result;
+                    this.imagecategory = file;
                 };
 
                 reader.readAsDataURL(file);
             } else {
                 this.previewUrl = null;
-                alert('Vui lòng chọn một tệp ảnh hợp lệ.');
+                this.imagecategory = null;
             }
         },
         addCategory() {
             const formData = new FormData();
             formData.append('namecategory', this.namecategory);
-            formData.append('imagecategory', this.imagecategory);
+            if (this.imagecategory) {
+                formData.append('imagecategory', this.imagecategory);
+            }
 
             // Gửi yêu cầu POST tới API để thêm danh mục mới
             axios.post('/api/category/add', formData, {
