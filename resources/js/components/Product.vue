@@ -69,7 +69,7 @@
                         <input type="number" name="pirce" class="form-control" v-model="price" required>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Mô tả sản phẩm</span>
                         <textarea name="detail" class="form-control" v-model="detail" rows="5" required></textarea>
                     </div>
                     <div class="input-group mb-3">
@@ -224,6 +224,9 @@ export default {
                 .catch(error => {
                     console.error('Lỗi khi thêm sản phẩm:', error);
                 });
+        },
+        showSuccessMessage(message) {
+            this.$toastr.success(message, 'Thành công');
         },
     },
     computed: {

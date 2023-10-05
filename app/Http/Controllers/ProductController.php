@@ -82,8 +82,12 @@ class ProductController extends Controller
 
     public function addproduct(Request $request)
     {
-        if (!$request->input('nameproduct') || !$request->input('price') || !$request->input('detail') || !$request->input('imageproduct') || !$request->input('idcategory') || !$request->input('idtype')) {
+        if (!$request->input('nameproduct') || !$request->input('price') || !$request->input('detail')  || !$request->input('idcategory') || !$request->input('idtype')) {
             return response()->json(['message' => 'Vui lòng điền đầy đủ thông tin'], 400, [], JSON_UNESCAPED_UNICODE);
+        }
+
+        if (!$request->file('imageproduct')) {
+            return response()->json(['message' => 'Vui lòng đính kèm file'], 400, [], JSON_UNESCAPED_UNICODE);
         }
 
         $product = new Product;
@@ -91,11 +95,17 @@ class ProductController extends Controller
         $product->oldprice = $request->input('oldprice');
         $product->price = $request->input('price');
         $product->detail = $request->input('detail');
-        $product->imageproduct = $request->input('imageproduct');
         $product->isdelete = 0;
         $product->idcategory = $request->input('idcategory');
         $product->idtype = $request->input('idtype');
         $product->sold = 0;
+        if ($request->hasFile('imageproduct')) {
+            $image = $request->file('imageproduct');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('image/product/');
+            $image->move($path, $filename);
+            $product->imageproduct = '/image/product/' . $filename;
+        }
         $product->save();
 
         $category = Category::where('idcategory', $request->input('idcategory'))->first();
