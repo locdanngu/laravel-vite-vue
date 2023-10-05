@@ -101,7 +101,7 @@
     <!-- Modal delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" v-if="categoryToDelete">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content" @submit.prevent="deleteCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa danh mục</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -118,9 +118,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteCategory" :disabled="categoryToDelete.product_count > 0">Xóa</button>
+                    <button type="submit" class="btn btn-danger" :disabled="categoryToDelete.product_count > 0">Xóa</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
