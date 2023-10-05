@@ -247,6 +247,7 @@ export default {
                     this.namecategorychange = '';
                     this.imagecategorychange = null;
                     this.previewUrlchange = null;
+                    $('#changeModal').modal('hide');
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm danh mục:', error);
@@ -287,6 +288,7 @@ export default {
                     this.namecategory = '';
                     this.imagecategory = null;
                     this.previewUrl = null;
+                    $('#addModal').modal('hide');
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm danh mục:', error);
