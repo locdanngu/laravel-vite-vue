@@ -230,6 +230,7 @@ export default {
         },
         changeCategory() {
             const formData = new FormData();
+            formData.append("_method", "PATCH");
             formData.append('idcategory', this.categoryToChange.idcategory);
             formData.append('namecategory', this.namecategorychange);
             if (this.imagecategorychange) {
@@ -237,7 +238,7 @@ export default {
             }
 
             // Gửi yêu cầu POST tới API để thêm danh mục mới
-            axios.patch('/api/category/change', formData, {
+            axios.post('/api/category/change', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

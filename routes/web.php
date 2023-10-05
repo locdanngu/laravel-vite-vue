@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route xử lý truy cập trực tiếp vào các tệp CSS
 // Route::get('/stylesheet/{filename}', function ($filename) {
@@ -23,6 +23,6 @@ Route::get('/', function () {
 // });
 
 // Route Vue.js cho các route khác
-// Route::get('/{any}', function () {
-//     return view('app');
-// })->where('any', '.*');
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
