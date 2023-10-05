@@ -42,7 +42,7 @@
     <!-- Modal add -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content" @submit.prevent="addCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Thêm 1 danh mục mới</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -52,26 +52,26 @@
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Tên danh mục</span>
-                        <input type="text" name="namecategory" class="form-control" v-model="namecategory">
+                        <input type="text" name="namecategory" class="form-control" v-model="namecategory" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
-                        <input type="file" name="imagecategory" id="" class="form-control" accept="image/*" @change="previewImage">
+                        <input type="file" name="imagecategory" id="" class="form-control" accept="image/*" @change="previewImage" required>
                     </div>
                     <img v-if="previewUrl" :src="previewUrl" alt="Ảnh xem trước" height="100" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="addCategory">Thêm</button>
+                    <button type="submit" class="btn btn-success">Thêm</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <!-- Modal change-->
     <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true" v-if="categoryToChange">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content" @submit.prevent="changeCategory">
                 <div class="modal-header">
                     <h5 class="modal-title" id="changeModalLabel">Thay đổi thông tin danh mục: <b>{{ categoryToChange.namecategory }}</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -92,9 +92,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="changeCategory">Lưu</button>
+                    <button type="submit" class="btn btn-success">Lưu</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 

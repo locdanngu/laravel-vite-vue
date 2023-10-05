@@ -2,6 +2,7 @@
 <div class="p-5">
     <div class="d-flex justify-content-between mb-2">
         <h2>Danh sách sản phẩm:</h2>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><i class="bi bi-plus-circle"></i> Thêm sản phẩm</button>
         <input type="text" v-model="searchQuery" placeholder="Tìm kiếm" class="form-control w-25">
     </div>
     <div class="card-body table-responsive p-0">
@@ -20,7 +21,7 @@
                     <th rowspan="2">ID</th>
                     <th rowspan="2">Danh mục</th>
                     <th rowspan="2">ID</th>
-                    <th rowspan="2">Loại</th>   
+                    <th rowspan="2">Loại</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +45,35 @@
         <span class="ml-3 mr-3">Trang {{ currentPage }} của tổng số {{ lastPage }}</span>
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Thêm 1 sản phẩm mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tên sản phẩm</span>
+                        <input type="text" name="namecategory" class="form-control" v-model="namecategory">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh danh mục</span>
+                        <input type="file" name="imagecategory" id="" class="form-control" accept="image/*" @change="previewImage">
+                    </div>
+                    <img v-if="previewUrl" :src="previewUrl" alt="Ảnh xem trước" height="100" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="addCategory">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </template>
 
@@ -67,23 +97,27 @@ export default {
     methods: {
         fetchProducts() {
             const currentPage = parseInt(this.$route.query.page) || 1;
-            
+
             let apiUrl = '/api/product';
 
             if (this.searchQuery) {
-                if(this.searchQuery !== this.previousSearchQuery){
+                if (this.searchQuery !== this.previousSearchQuery) {
                     this.currentPage = 1;
                 }
                 apiUrl += `?search=${this.searchQuery}&page=${this.currentPage}`;
-            }else{
+            } else {
                 apiUrl += `?page=${this.currentPage}`;
             }
-            
+
             axios.get(apiUrl).then((response) => {
                 this.products = response.data.data;
                 this.lastPage = response.data.last_page;
                 this.previousSearchQuery = this.searchQuery;
-                this.$router.replace({ query: { page: this.currentPage } });
+                this.$router.replace({
+                    query: {
+                        page: this.currentPage
+                    }
+                });
             });
         },
         previousPage() {
