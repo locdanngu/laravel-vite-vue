@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="changeCategory">Thêm</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" @click="addCategory">Thêm</button>
                 </div>
             </div>
         </div>
@@ -133,7 +133,9 @@ export default {
             previousSearchQuery: '',
             categoryToDelete: null,
             categoryToChange: null,
-            previewUrl: null
+            previewUrl: null,
+            namecategory: '', // Dữ liệu tên danh mục
+            imagecategory: null, // Dữ liệu tệp ảnh danh mục
         };
     },
     created() {
@@ -215,7 +217,29 @@ export default {
                 this.previewUrl = null;
                 alert('Vui lòng chọn một tệp ảnh hợp lệ.');
             }
-        }
+        },
+        addCategory() {
+            const formData = new FormData();
+            formData.append('namecategory', this.namecategory);
+            formData.append('imagecategory', this.imagecategory);
+
+            // Gửi yêu cầu POST tới API để thêm danh mục mới
+            axios.post('/api/category/add', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    this.fetchCategories();
+                    this.showSuccessMessage('Thêm danh mục thành công.');
+                    this.namecategory = '';
+                    this.imagecategory = null;
+                    this.previewUrl = null;
+                })
+                .catch(error => {
+                    console.error('Lỗi khi thêm danh mục:', error);
+                });
+        },
     },
     computed: {
         formattedDate() {

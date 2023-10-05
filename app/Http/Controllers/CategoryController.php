@@ -67,10 +67,18 @@ class CategoryController extends Controller
         $category->isdelete = 0;
         $category->timedelete = null;
         $category->product_count = 0;
-        $category->imagecategory = $request->input('imagecategory');
+        if ($request->hasFile('imagecategory')) {
+            $image = $request->file('imagecategory');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('image/category/');
+            $image->move($path, $filename);
+            $category->imagecategory = '/image/category/' . $filename;
+        }else{
+            return response()->json(['message' => 'Vui lòng kèm file ảnh'], 400, [], JSON_UNESCAPED_UNICODE);
+        }
         $category->save();
 
-        return response()->json(['message' => 'Thêm danh mục thành công'], 201, [], JSON_UNESCAPED_UNICODE);
+        return response()->json(['message' => 'Thêm danh mục thành công'], 200, [], JSON_UNESCAPED_UNICODE);
     }
 
 
