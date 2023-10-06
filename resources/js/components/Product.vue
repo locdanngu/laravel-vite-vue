@@ -156,7 +156,27 @@
         </div>
     </div>
 
-
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" v-if="productToDelete">
+        <div class="modal-dialog modal-lg" role="document">
+            <form class="modal-content" @submit.prevent="deleteProduct">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Bạn có chắc chắn muốn xóa sản phẩm: <b>{{ productToDelete.nameproduct }}</b> này?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </div>
 </template>
@@ -189,6 +209,7 @@ export default {
             idtypechange: 1,
             imageproductchange: null,
             productToChange: null,
+            productToDelete: null,
         };
     },
     created() {
@@ -355,6 +376,21 @@ export default {
                 })
                 .catch(error => {
                     console.error('Lỗi khi thay đổi sản phẩm:', error);
+                });
+        },
+        openDeleteModal(product) {
+            this.productToDelete = product; // Lưu danh mục muốn xóa vào biến categoryToDelete
+        },
+        deleteProduct() {
+            axios.delete('/api/product/delete?id=' + this.productToDelete.idproduct)
+                .then(response => {
+                    this.fetchProducts();
+                    this.showSuccessMessage('Danh mục đã được xóa thành công.');
+                    $('#deleteModal').modal('hide');
+                })
+                .catch(error => {
+                    // Xử lý lỗi ở đây
+                    console.error('Lỗi khi xóa danh mục:', error);
                 });
         },
     },

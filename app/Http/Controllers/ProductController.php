@@ -179,13 +179,18 @@ class ProductController extends Controller
         if(!$product){
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404, [], JSON_UNESCAPED_UNICODE);
         }
-        if($product->isdelete == 1){
-            return response()->json(['message' => 'Sản phẩm đã bị xóa trước đó'], 400, [], JSON_UNESCAPED_UNICODE);
-        }
+
         if($product->isdelete == 0){
             $product->isdelete = 1;
             $product->timedelete = Carbon::now();
             $product->save();
+            $category = Category::where('idcategory', $product->idcategory)->first();
+            $category->product_count = $category->product_count - 1;
+            $category->save();
+            $type = Type::where('idtype', $product->idtype)->first();
+            $type->product_count = $type->product_count - 1;
+            $type->save();
+
             return response()->json(['message' => 'Xóa thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
