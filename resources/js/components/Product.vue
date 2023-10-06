@@ -9,19 +9,13 @@
         <table class="product-table table text-nowrap">
             <thead>
                 <tr>
-                    <th rowspan="3">ID</th>
-                    <th rowspan="3">Tên sản phẩm</th>
-                    <th rowspan="3">Hình ảnh</th>
-                    <th rowspan="3">Giá cũ</th>
-                    <th rowspan="3">Giá mới</th>
-                    <th colspan="2">Danh mục</th>
-                    <th colspan="2">Loại hàng</th>
-                </tr>
-                <tr>
-                    <th rowspan="2">ID</th>
-                    <th rowspan="2">Danh mục</th>
-                    <th rowspan="2">ID</th>
-                    <th rowspan="2">Loại</th>
+                    <th>ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Giá cũ</th>
+                    <th>Giá mới</th>
+                    <th>Danh mục</th>
+                    <th>Loại hàng</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,10 +24,8 @@
                     <td class="font-weight-bold">{{ product.nameproduct }}</td>
                     <td><img :src="product.imageproduct" alt="" height="50"></td>
                     <td>{{ product.oldprice }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.namecategory.idcategory }}</td>
+                    <td class="font-weight-bold text-danger">{{ product.price }}</td>
                     <td>{{ product.namecategory.namecategory }}</td>
-                    <td>{{ product.nametype.idtype }}</td>
                     <td>{{ product.nametype.nametype }}</td>
                 </tr>
             </tbody>
