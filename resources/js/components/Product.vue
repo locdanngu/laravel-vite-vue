@@ -25,7 +25,11 @@
                     <td><img :src="product.imageproduct" alt="" height="50"></td>
                     <td>{{ product.oldprice }}</td>
                     <td class="font-weight-bold text-danger">{{ product.price }}</td>
-                    <td>{{ product.namecategory.namecategory }}</td>
+                    <td>
+                        <router-link :to="`/category?search=${product.namecategory.namecategory}`">
+                            {{ product.namecategory.namecategory }}
+                        </router-link>
+                    </td>
                     <td>{{ product.nametype.nametype }}</td>
                 </tr>
             </tbody>
@@ -38,7 +42,7 @@
         <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === lastPage">Tiếp</button>
     </div>
 
-    <div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true" >
+    <div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <form class="modal-content" @submit.prevent="addProduct">
                 <div class="modal-header">
@@ -70,7 +74,7 @@
                             <option value="" disabled selected>Chọn danh mục</option>
                             <option :value="category.idcategory" v-for="category in categories.data" :key="category.idcategory">{{ category.namecategory }}</option>
                         </select>
-                    </div>  
+                    </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Loại hàng</span>
                         <select name="idtype" v-model="idtype">
@@ -220,6 +224,9 @@ export default {
         showSuccessMessage(message) {
             this.$toastr.success(message, 'Thành công');
         },
+        goToCategory() {
+            this.$router.push(`/category?search=${this.product.namecategory.namecategory}`);
+        }
     },
     computed: {
         formattedDate() {

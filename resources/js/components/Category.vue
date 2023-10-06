@@ -132,7 +132,7 @@ export default {
     data() {
         return {
             categories: [],
-            searchQuery: '',
+            searchQuery: this.$route.query.search,
             currentPage: 1, // Trang hiện tại
             lastPage: 1,
             previousSearchQuery: '',
@@ -292,6 +292,18 @@ export default {
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm danh mục:', error);
+                });
+        },
+        fetchCategoryData() {
+            // Thực hiện cuộc gọi API với this.searchData
+            axios.get(`/api/category?search=${this.searchQuery}`)
+                .then(response => {
+                    // Xử lý dữ liệu trả về từ API
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    // Xử lý lỗi (nếu có)
+                    console.error(error);
                 });
         },
     },
