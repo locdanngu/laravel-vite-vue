@@ -1,6 +1,6 @@
 <template>
 <div class="p-5">
-    <div class="d-flex justify-content-between mb-2">
+    <div class="d-flex justify-content-between mb-2 fixmobile">
         <h2>Danh sách danh mục:</h2>
         <button class="btn btn-primary" data-toggle="modal" data-target="#addModal"><i class="bi bi-plus-circle"></i> Thêm danh mục</button>
         <input type="text" v-model="searchQuery" placeholder="Tìm kiếm" class="form-control w-25">
