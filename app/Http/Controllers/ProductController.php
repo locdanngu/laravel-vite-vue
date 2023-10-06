@@ -122,18 +122,13 @@ class ProductController extends Controller
 
     public function changeproduct(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('idproduct');
         $product = Product::where('idproduct', $id)->where('isdelete', 0)->first();
         if(!$product){
             return response()->json(['message' => 'Sản phẩm không tồn tại hoặc đã bị xóa'], 404, [], JSON_UNESCAPED_UNICODE);
         }else{
-            $data = $request->only(['nameproduct', 'oldprice', 'price','detail','imageproduct','idcategory','idtype']);
-            if (empty($data)) {
-                return response()->json(['message' => 'Không có dữ liệu mới để cập nhật'], 400, [], JSON_UNESCAPED_UNICODE);
-            }
-
-            if($product->idcategory != $data['idcategory']){
-                $category2 = Category::where('idcategory', $data['idcategory'])->first();
+            if($product->idcategory != $request->input('idcategory')){
+                $category2 = Category::where('idcategory', $request->input('idcategory'))->first();
                 if(!$category2){
                     return response()->json(['message' => 'Danh mục mới không tồn tại trong hệ thống'], 400, [], JSON_UNESCAPED_UNICODE);
                 }
@@ -144,8 +139,8 @@ class ProductController extends Controller
                 $category2->save();
             }
 
-            if($product->idtype != $data['idtype']){
-                $type2 = Type::where('idtype', $data['idtype'])->first();
+            if($product->idtype != $request->input('idtype')){
+                $type2 = Type::where('idtype', $request->input('idtype'))->first();
                 if(!$type2){
                     return response()->json(['message' => 'Loại hàng mới không tồn tại trong hệ thống'], 400, [], JSON_UNESCAPED_UNICODE);
                 }
@@ -156,10 +151,21 @@ class ProductController extends Controller
                 $type2->save();
             }
 
-            foreach ($data as $field => $value) {
-                $product->$field = $value;
+            $product->nameproduct = $request->input('nameproduct');
+            $product->oldprice = $request->input('oldprice');
+            $product->price = $request->input('price');
+            $product->detail = $request->input('detail');
+            $product->idcategory = $request->input('idcategory');
+            $product->idtype = $request->input('idtype');
+            if ($request->hasFile('imageproduct')) {
+                $image = $request->file('imageproduct');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('image/product/');
+                $image->move($path, $filename);
+                $product->imageproduct = '/image/product/' . $filename;
             }
             $product->save();
+
             return response()->json(['message' => 'Cập nhật sản phẩm thành công'], 200, [], JSON_UNESCAPED_UNICODE);
         } 
 

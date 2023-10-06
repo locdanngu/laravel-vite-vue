@@ -143,7 +143,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Ảnh sản phẩm</span>
-                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImagechange" required>
+                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImagechange">
                     </div>
                     <img v-if="previewUrlchange" :src="previewUrlchange" alt="" height="100" />
                     <img v-else :src="productToChange.imageproduct" alt="" height="100" />
@@ -321,7 +321,42 @@ export default {
                 this.imageproductchange = null;
             }
         },
-        
+        changeProduct() {
+            const formData = new FormData();
+            formData.append("_method", "PATCH");
+            formData.append('idproduct', this.productToChange.idproduct);
+            formData.append('nameproduct', this.nameproductchange);
+            formData.append('oldprice', this.oldpricechange);
+            formData.append('price', this.pricechange);
+            formData.append('idcategory', this.idcategorychange);
+            formData.append('idtype', this.idtypechange);
+            formData.append('detail', this.detailchange);
+            if (this.imageproductchange) {
+                formData.append('imageproduct', this.imageproductchange);
+            }
+
+            // Gửi yêu cầu POST tới API để thêm danh mục mới
+            axios.post('/api/product/change', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    this.fetchProducts();
+                    this.showSuccessMessage('Thay đổi sản phẩm thành công.');
+                    this.nameproductchange = '';
+                    this.oldpricechange = '';
+                    this.pricechange = '';
+                    this.idcategorychange = '';
+                    this.idtypechange = '';
+                    this.detailchange = '';
+                    this.previewUrlchange = null;
+                    $('#changeModal').modal('hide');
+                })
+                .catch(error => {
+                    console.error('Lỗi khi thay đổi sản phẩm:', error);
+                });
+        },
     },
     computed: {
         formattedDate() {
