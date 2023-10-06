@@ -16,6 +16,7 @@
                     <th>Giá mới</th>
                     <th>Danh mục</th>
                     <th>Loại hàng</th>
+                    <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,10 @@
                         </router-link>
                     </td>
                     <td>{{ product.nametype.nametype }}</td>
+                    <td>
+                        <button class="btn btn-warning mr-3" data-toggle="modal" data-target="#changeModal" @click="openChangeModal(product)"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" @click="openDeleteModal(product)"><i class="bi bi-trash"></i> Xóa</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -96,6 +101,63 @@
         </div>
     </div>
 
+    <div class="modal fade " id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true" v-if="productToChange">
+        <div class="modal-dialog modal-lg" role="document">
+            <form class="modal-content" @submit.prevent="changeProduct">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeModalLabel">Chỉnh sửa thông tin sản phẩm: <b>{{ productToChange.nameproduct }}</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tên sản phẩm</span>
+                        <input type="text" name="nameproduct" class="form-control" v-model="this.nameproductchange" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Giá cũ</span>
+                        <input type="number" name="oldpirce" class="form-control" v-model="this.oldpricechange" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Giá mới</span>
+                        <input type="number" name="pirce" class="form-control" v-model="this.pricechange" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Mô tả sản phẩm</span>
+                        <textarea name="detail" class="form-control" v-model="this.detailchange" rows="5" required></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Danh mục</span>
+                        <select name="idcategory" v-model="this.idcategorychange">
+                            <option value="" disabled selected>Chọn danh mục</option>
+                            <option :value="category.idcategory" v-for="category in categories.data" :key="category.idcategory">{{ category.namecategory }}</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Loại hàng</span>
+                        <select name="idtype" v-model="this.idtypechange">
+                            <option value="" disabled selected>Chọn loại hàng</option>
+                            <option :value="types.idtype" v-for="types in types.data" :key="types.idtype">{{ types.nametype }}</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Ảnh sản phẩm</span>
+                        <input type="file" name="imageproduct" id="" class="form-control" accept="image/*" @change="previewImagechange" required>
+                    </div>
+                    <img v-if="previewUrlchange" :src="previewUrlchange" alt="" height="100" />
+                    <img v-else :src="productToChange.imageproduct" alt="" height="100" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
 </div>
 </template>
 
@@ -118,6 +180,15 @@ export default {
             idcategory: 1,
             idtype: 1,
             imageproduct: null, // Dữ liệu tệp ảnh danh mục
+            previewUrlchange: null,
+            nameproductchange: '', // Dữ liệu tên danh mục
+            oldpricechange: '',
+            pricechange: '',
+            detailchange: '',
+            idcategorychange: 1,
+            idtypechange: 1,
+            imageproductchange: null,
+            productToChange: null,
         };
     },
     created() {
@@ -224,6 +295,33 @@ export default {
         showSuccessMessage(message) {
             this.$toastr.success(message, 'Thành công');
         },
+        openChangeModal(product) {
+            this.productToChange = product; // Lưu danh mục muốn xóa vào biến categoryToDelete
+            this.nameproductchange = product.nameproduct;
+            this.oldpricechange = product.oldprice;
+            this.pricechange = product.price;
+            this.detailchange = product.detail;
+            this.idcategorychange = product.namecategory.idcategory;
+            this.idtypechange = product.nametype.idtype;
+        },
+        previewImagechange(event) {
+            const file = event.target.files[0];
+
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.previewUrlchange = e.target.result;
+                    this.imageproductchange = file;
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                this.previewUrlchange = null;
+                this.imageproductchange = null;
+            }
+        },
+        
     },
     computed: {
         formattedDate() {
