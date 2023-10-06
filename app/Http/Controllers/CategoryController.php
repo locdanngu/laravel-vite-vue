@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
@@ -21,11 +22,13 @@ class CategoryController extends Controller
 
         $countcate = Category::all();
         foreach($countcate as $cc){
-            $cc->product_count = Product::where('idcategory', $cc->idcategory)->count();
+            $cc->product_count = Product::where('idcategory', $cc->idcategory)->where('isdelete', 0)->count();
+            $cc->save();
         }
         $counttype = Type::all();
         foreach($counttype as $ct){
-            $ct->product_count = Product::where('idtype', $ct->idtype)->count();
+            $ct->product_count = Product::where('idtype', $ct->idtype)->where('isdelete', 0)->count();
+            $ct->save();
         }
     
         $categories = Category::query();
