@@ -18,6 +18,15 @@ class CategoryController extends Controller
         Paginator::currentPageResolver(function () use ($request) {
             return $request->input('page');
         });
+
+        $countcate = Category::all();
+        foreach($countcate as $cc){
+            $cc->product_count = Product::where('idcategory', $cc->idcategory)->count();
+        }
+        $counttype = Type::all();
+        foreach($counttype as $ct){
+            $ct->product_count = Product::where('idtype', $ct->idtype)->count();
+        }
     
         $categories = Category::query();
         
