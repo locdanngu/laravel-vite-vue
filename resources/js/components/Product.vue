@@ -224,9 +224,6 @@ export default {
         showSuccessMessage(message) {
             this.$toastr.success(message, 'Thành công');
         },
-        goToCategory() {
-            this.$router.push(`/category?search=${this.product.namecategory.namecategory}`);
-        }
     },
     computed: {
         formattedDate() {
