@@ -157,7 +157,7 @@
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" v-if="productToDelete">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <form class="modal-content" @submit.prevent="deleteProduct">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa sản phẩm</h5>
